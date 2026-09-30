@@ -1,0 +1,19 @@
+{
+  "name": "abdullah",
+  "version": "1.0.0",
+  "description": "Arabic RTL personal service website for Abdullah Alowaini — automation, AI, and practical digital solutions.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://7f0548f6b28a1758d9bf7be630d36cb4.artifacts.cloudflare.net/git/prod/wdp_815fd3e48ca0f88b5f213c21.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@netlify/functions": "^6.0.1"
+  }
+}

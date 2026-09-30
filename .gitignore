@@ -2,6 +2,6 @@
 .env.*
 !.env.example
 node_modules/
-.vercel/
+.netlify/
 .DS_Store
 *.log
