@@ -1,6 +1,7 @@
 import type { Context } from '@netlify/functions';
 
 declare const Netlify: { env: { get(key: string): string | undefined } };
+declare const process: { env: Record<string, string | undefined> };
 
 const recentRequests = new Map<string, number[]>();
 
@@ -9,6 +10,10 @@ function response(body: Record<string, unknown>, status: number) {
     status,
     headers: { 'Cache-Control': 'no-store', 'Content-Type': 'application/json' }
   });
+}
+
+function env(key: string) {
+  return Netlify.env.get(key) || process.env[key];
 }
 
 function text(value: unknown, max: number) {
@@ -47,8 +52,8 @@ export default async function contact(req: Request, context: Context) {
     return response({ error: 'validation_error' }, 400);
   }
 
-  const supabaseUrl = String(Netlify.env.get('SUPABASE_URL') || '').replace(/\/$/, '');
-  const supabaseAnonKey = String(Netlify.env.get('SUPABASE_ANON_KEY') || '');
+  const supabaseUrl = String(env('SUPABASE_URL') || '').replace(/\/$/, '');
+  const supabaseAnonKey = String(env('SUPABASE_ANON_KEY') || '');
   if (!supabaseUrl || !supabaseAnonKey) return response({ error: 'not_configured' }, 503);
 
   try {
