@@ -5,6 +5,11 @@ declare const process: { env: Record<string, string | undefined> };
 
 const recentRequests = new Map<string, number[]>();
 
+// Supabase publishable credentials are safe for client-facing use; RLS remains the access control.
+// Netlify.env/process.env take precedence when the site runtime exposes them.
+const FALLBACK_SUPABASE_URL = 'https://ztmpaexsqvmqabjdtsrj.supabase.co';
+const FALLBACK_SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_dEXfuAfwQ4f1pMamoBngQQ_4dHpn-2h';
+
 function response(body: Record<string, unknown>, status: number) {
   return new Response(JSON.stringify(body), {
     status,
@@ -52,8 +57,8 @@ export default async function contact(req: Request, context: Context) {
     return response({ error: 'validation_error' }, 400);
   }
 
-  const supabaseUrl = String(env('SUPABASE_URL') || '').replace(/\/$/, '');
-  const supabaseAnonKey = String(env('SUPABASE_ANON_KEY') || '');
+  const supabaseUrl = String(env('SUPABASE_URL') || FALLBACK_SUPABASE_URL).replace(/\/$/, '');
+  const supabaseAnonKey = String(env('SUPABASE_ANON_KEY') || FALLBACK_SUPABASE_PUBLISHABLE_KEY);
   if (!supabaseUrl || !supabaseAnonKey) return response({ error: 'not_configured' }, 503);
 
   try {
